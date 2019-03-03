@@ -39,3 +39,11 @@ delete1 x left (r:right) =
 delete2 x ls = delete1 x [] ls
 
 -- f) split
+split1 _ [] = ([],[])
+split1 pivot ls = ([left | left <- ls, left < pivot], [right | right <- ls, right >= pivot])
+
+-- g) map
+map1 _ [] = []
+map1 f (x:xs) = (f x) : (map1 f xs)
+
+-- ZAD 9
