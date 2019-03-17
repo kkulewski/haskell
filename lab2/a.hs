@@ -46,4 +46,39 @@ split1 pivot ls = ([left | left <- ls, left < pivot], [right | right <- ls, righ
 map1 _ [] = []
 map1 f (x:xs) = (f x) : (map1 f xs)
 
+
 -- ZAD 9
+
+
+-- ZAD 10
+
+
+-- ZAD 11
+
+
+-- ZAD 12
+foldr2 f acc [] = acc
+foldr2 f acc (x:xs) = f x (foldr2 f acc xs)
+
+
+-- ZAD 13
+-- a)
+prodl [] = 0
+prodl (x:xs) = foldl (*) 1 (x:xs)
+
+prodr [] = 0
+prodr (x:xs) = foldr (*) 1 (x:xs)
+
+-- b)
+append2 x y = y : x
+reversel [] = []
+reversel xs = foldl append2 [] xs
+
+-- c)
+and1 a b = a == True && b == True
+
+andl [] = False
+andl xs = foldl (and1) True xs
+
+andr [] = False
+andr xs = foldr (and1) True xs
