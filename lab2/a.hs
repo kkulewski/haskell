@@ -125,15 +125,8 @@ g x = x
 -- j) foldl (++) :: Foldable t => [a] -> t [a] -> [a]
 -- k) foldl (++) [] :: Foldable t => t [a] -> [a]
 
-
-
-
-
-
-
 -- l) e = f 7
 -- l) { f :: (Int -> a)} |- e :: a
-
 
 -- m) e = (\f -> f 7)
 -- m) { } |- e :: (Int -> a) -> a
@@ -150,18 +143,30 @@ g x = x
 -- q) e = (\f -> f (g x)) square
 -- q) { g :: (c -> a), x :: c} |- e :: Int
 
-
-
-
-
-
-
 -- n) + (f x) (g x) 
 -- n) (a -> b) -> (a -> b) -> b
 
--- l) f :: Num a => a -> a
--- m) \f -> f 7) :: Num t1 => (t1 -> t2) -> t2
--- n) (+ (f 1) (g 1)) :: (Num a, Num t, Num (t -> a)) => a -> a
--- o) (f 7 (g 'x')) :: Num (Char -> t) => t
--- p) (\f -> f (g 1)) :: Num t1 => (t1 -> t2) -> t2
--- q) ((\f -> f (g 1)) square) :: Num t => t
+
+-- ZAD 18
+--
+-- ALGORYTM
+-- 1. Sprawdzamy czy funkcja zewnetrzna jest taka sama. Jesli nie - nie da sie.
+-- 2. Jesli jest f(x, g(a)) i f(y, g(b)) to argumenty g (tj a i b) musza sie unifikowac.
+-- 
+-- a)
+-- t1 = f(x, g(b))
+-- t2 = f(a, y)
+--
+-- x =fi= a
+-- fi(x) = a
+--
+-- g(b) =fi= y
+-- fi(y) = g(b)
+--
+-- => fi(t1) === fi(t2)
+
+-- b)
+-- f( h(b, x), y) i f( h(a,y), x)
+-- h(b, x) =fi= h(a, y)
+-- fi(b) = a
+-- fi(x) = y
