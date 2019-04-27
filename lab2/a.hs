@@ -170,3 +170,14 @@ g x = x
 -- h(b, x) =fi= h(a, y)
 -- fi(b) = a
 -- fi(x) = y
+
+-- Zad 22
+data BinTree a = Leaf a | Node a (BinTree a) (BinTree a)
+
+-- a)
+heightBinTree (Leaf x) = 1
+heightBinTree (Node x l r) = 1 + max (heightBinTree l) (heightBinTree r)
+
+-- b)
+sizeBinTree (Leaf x) = 1
+sizeBinTree (Node x l r) = 1 + (sizeBinTree l) + (sizeBinTree r)
