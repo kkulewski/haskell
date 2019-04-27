@@ -181,3 +181,13 @@ heightBinTree (Node x l r) = 1 + max (heightBinTree l) (heightBinTree r)
 -- b)
 sizeBinTree (Leaf x) = 1
 sizeBinTree (Node x l r) = 1 + (sizeBinTree l) + (sizeBinTree r)
+
+-- c)
+maxBinTree (Leaf x) = x
+maxBinTree (Node x l r) = max x (max (maxBinTree l) (maxBinTree r))
+
+-- d)
+preBinTree (Leaf x) = [x]
+preBinTree (Node x l r) = (x : preBinTree l) ++ preBinTree r
+
+-- Zad 23
