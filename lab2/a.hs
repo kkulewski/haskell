@@ -190,4 +190,18 @@ maxBinTree (Node x l r) = max x (max (maxBinTree l) (maxBinTree r))
 preBinTree (Leaf x) = [x]
 preBinTree (Node x l r) = (x : preBinTree l) ++ preBinTree r
 
+-- e)
+mapTree f (Leaf x) = Leaf (f x)
+mapTree f (Node x l r) = Node (f x) (mapTree f l) (mapTree f r)
+
+-- f)
+foldTree f g (Leaf x) = f x
+foldTree f g (Node x l r) = (g x (foldTree f g l) (foldTree f g r))
+-- let y = Node 1 (Node 2 (Leaf 10) (Leaf 11)) (Node 3 (Leaf 4) (Node 5 (Leaf 6) (Leaf 7)))
+-- foldTree (\x -> x) (\x y z -> x + y + z) (Leaf 5)
+-- foldTree (\x -> x) (\x y z -> y + z) (Leaf 5)
+-- oldTree (\x -> x) (\x y z -> x + y + z) y
+
 -- Zad 23
+data Set a = S [a]
+member x (S l) = elem x l
