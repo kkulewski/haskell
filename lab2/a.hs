@@ -12,8 +12,8 @@ fib_t x = fib2 x 1 0
 
 -- ZAD 8
 -- a) append l m = l ++ m
-append1 [] m = m
-append1 (l:ls) m = l : (append1 ls m) 
+append1 [] m = m 
+append1 (l:ls) m = l : (append1 ls m)
 
 -- b) member
 member1 x [] = False
@@ -203,5 +203,42 @@ foldTree f g (Node x l r) = (g x (foldTree f g l) (foldTree f g r))
 -- oldTree (\x -> x) (\x y z -> x + y + z) y
 
 -- Zad 23
+
+-- Zad 24
 data Set a = S [a]
 member x (S l) = elem x l
+
+-- Zad 25
+
+-- Zad 26
+
+-- Zad 27
+
+-- Zad 28
+-- a)
+class Stack s where
+    emptyStack :: s a -> Bool
+    pushStack :: a -> s a -> s a
+    popStack :: s a -> a
+    showS :: Show a => s a -> String
+
+-- b)
+data Stack1 a = EmptyS | PushS a (Stack1 a) -- [] | (x:xs)
+
+instance Stack Stack1 where
+    emptyStack EmptyS = True
+    emptyStack _ = False
+    pushStack x xs = PushS x xs
+    popStack EmptyS = error "empty stack"
+    popStack (PushS x xs) = x
+    showS EmptyS = "empty"
+    showS (PushS x xs) = (show x) ++ "|" ++ showS xs
+
+-- c)
+instance Stack [] where
+    emptyStack [] = True
+    emptyStack _ = False
+    pushStack x xs = (x:xs)
+    popStack [] = error "empty stack"
+    popStack (x:xs) = x
+    showS s = if emptyStack s then "[]" else "|" ++ showS s
