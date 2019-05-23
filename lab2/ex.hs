@@ -1,3 +1,5 @@
+{-# LANGUAGE RankNTypes #-}
+
 -- ##
 -- 8
 -- ##
@@ -86,6 +88,7 @@ foldl' f acc (x:xs) = foldl' f (f acc x) xs
 -- ##
 -- 13
 -- ##
+
 prodl' :: Num a => [a] -> a
 prodl' [] = 0
 prodl' (x:xs) = foldl' (*) 1 (x:xs)
@@ -93,3 +96,102 @@ prodl' (x:xs) = foldl' (*) 1 (x:xs)
 prodr' :: Num a => [a] -> a
 prodr' [] = 0
 prodr' (x:xs) = foldr' (*) 1 (x:xs)
+
+
+-- ##
+-- 21
+-- ##
+
+summ' :: Num c => (forall a. [a] -> c) -> [x] -> [y] -> c
+summ' f l1 l2 = (f l1) + (f l2)
+
+
+-- ##
+-- 22
+-- ##
+
+data BinTree a = Leaf a | Node (BinTree a) (BinTree a)
+
+heightBinTree :: Num a => Num p => Ord p => BinTree a -> p
+heightBinTree (Leaf _) = 1
+heightBinTree (Node left right) = 1 + max (heightBinTree left) (heightBinTree right)
+
+sizeBinTree :: BinTree a -> Int
+sizeBinTree (Leaf _) = 1
+sizeBinTree (Node left right) = 1 + (sizeBinTree left) + (sizeBinTree right)
+
+sumBinTree :: Num a => BinTree a -> a
+sumBinTree (Leaf a) = a
+sumBinTree (Node left right) = (sumBinTree left) + (sumBinTree right)
+
+preBinTree :: BinTree a -> [a]
+preBinTree (Leaf a) = [a]
+preBinTree (Node left right) = preBinTree left ++ preBinTree right
+
+mapBinTree :: (a -> b) -> BinTree a -> BinTree b
+mapBinTree f (Leaf a) = Leaf (f a)
+mapBinTree f (Node left right) = Node (mapBinTree f left) (mapBinTree f right)
+
+
+-- ##
+-- 23
+-- ##
+
+data Tree a = TreeLeaf a | TreeNode a (Tree a)
+
+sizeTree :: Tree a -> Int
+sizeTree (TreeLeaf _) = 1
+sizeTree (TreeNode _ son) = 1 + sizeTree son
+
+sumTree :: Num a => Tree a -> a
+sumTree (TreeLeaf a) = a
+sumTree (TreeNode a son) = a + sumTree son
+
+preTree :: Tree a -> [a]
+preTree (TreeLeaf a) = [a]
+preTree (TreeNode a son) = a : (preTree son)
+
+mapTree :: (a -> b) -> Tree a -> Tree b
+mapTree f (TreeLeaf a) = TreeLeaf (f a)
+mapTree f (TreeNode a son) = TreeNode (f a) (mapTree f son)
+
+
+-- ##
+-- 24
+-- ##
+
+data Set a = S [a]
+
+setToList :: Set a -> [a]
+setToList (S []) = []
+setToList (S (x:xs)) = x : setToList (S xs)
+
+setMember :: Eq a => a -> Set a -> Bool
+setMember _ (S []) = False
+setMember x (S (y:ys)) = if x == y then True else setMember x (S ys)
+
+setSubset :: Eq a => Set a -> Set a -> Bool
+setSubset (S []) (S _) = True
+setSubset (S (x:xs)) (S ys) = if setMember x (S ys) then setSubset (S xs) (S ys) else False
+
+setUnion :: Eq a => Set a -> Set a -> Set a
+setUnion (S []) (S ys) = S ys
+setUnion (S (x:xs)) (S ys) = if setMember x (S ys) then setUnion (S xs) (S ys) else setUnion (S xs) (S (ys ++ [x]))
+
+setIntersection' :: Eq a => Set a -> Set a -> Set a -> Set a
+setIntersection' (S []) (S _) (S zs) = S zs
+setIntersection' (S (x:xs)) (S ys) (S zs) = if setMember x (S ys)
+    then setIntersection' (S xs) (S ys) (S (zs ++ [x]))
+    else setIntersection' (S xs) (S ys) (S zs)
+
+setIntersection :: Eq a => Set a -> Set a -> Set a
+setIntersection (S xs) (S ys) = setIntersection' (S xs) (S ys) (S [])
+
+
+setAppend :: a -> Set a -> Set a
+setAppend x (S []) = S [x]
+setAppend x (S ys) = S (x:ys)
+
+setDelete :: Eq a => a -> Set a -> Set a
+setDelete _ (S []) = S []
+setDelete x (S (y:ys)) = if y == x then setDelete x (S ys) else setAppend y (setDelete x (S (ys)))
